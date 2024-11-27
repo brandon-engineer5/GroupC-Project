@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1732647194 source:c:\users\brandon\onedrive - technological university dublin\yr_2\prog_1\github_group\groupc-project\quiz_question\main.cpp
+	"QuizQuestions.h"
+
+1732647093 c:\users\brandon\onedrive - technological university dublin\yr_2\prog_1\github_group\groupc-project\quiz_question\include\quizquestions.h
+	<iostream>
+	<string>
+
+1732647435 source:c:\users\brandon\onedrive - technological university dublin\yr_2\prog_1\github_group\groupc-project\quiz_question\src\quizquestions.cpp
+	"QuizQuestions.h"
+
