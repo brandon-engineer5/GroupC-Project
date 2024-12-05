@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -23,7 +24,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/QuizQuestions.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/QuizQuestions.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
