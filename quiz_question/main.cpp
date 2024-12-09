@@ -4,15 +4,15 @@ int main() {
     Quiz quiz;
 
     QuizQuestions q1;
-    q1.Setquestion_text("What is the capital of France?");
-    q1.Setoption(1, "Berlin");
-    q1.Setoption(2, "Madrid");
-    q1.Setoption(3, "Paris");
-    q1.Setoption(4, "Rome");
-    q1.Setcorrect_option(3);
-    quiz.AddQuestion(q1);
+    q1.Setquestion_text("What is the capital of France?"); // set question text
+    q1.Setoption(1, "Berlin"); // set option 1
+    q1.Setoption(2, "Madrid"); // set option 2
+    q1.Setoption(3, "Paris"); // set option 3
+    q1.Setoption(4, "Rome"); // set option 4
+    q1.Setcorrect_option(3); // mark correct answer. in this case no. 3
+    quiz.AddQuestion(q1); // add this question to the quiz
 
-    QuizQuestions q2;
+    QuizQuestions q2; // follows the same structure as commented above
     q2.Setquestion_text("What sort of animal is Walt Disney's 'Dumbo'?");
     q2.Setoption(1, "Giraffe");
     q2.Setoption(2, "Dog");
@@ -93,8 +93,8 @@ int main() {
     q10.Setcorrect_option(3);
     quiz.AddQuestion(q10);
 
-    quiz.StartQuiz();
-    quiz.SaveScore("quiz_score.txt");
+    quiz.StartQuiz(); // starts quiz for the user
+    quiz.SaveScore("quiz_score.txt"); // save quiz score to a text file
 
     return 0;
 }

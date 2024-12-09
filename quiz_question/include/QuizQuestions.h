@@ -9,14 +9,14 @@ Task - Quiz Logic: Implements the quiz-taking and scoring mechanics.
 #include <iostream>
 #include <string>
 #include <vector>
-#include <fstream>
+#include <fstream> // for file operations / saving score
 
 using namespace std;
 
 class QuizQuestions {
 public:
-    QuizQuestions();
-    virtual ~QuizQuestions();
+    QuizQuestions(); // constructor
+    virtual ~QuizQuestions(); // virtual destructor
 
     string Getquestion_text() { return question_text_; }
     void Setquestion_text(string val) { question_text_ = val; }
@@ -30,21 +30,21 @@ public:
     int AskQuestion(); // Handles user interaction for this question.
 
 private:
-    string question_text_;
-    vector<string> options_;
-    int correct_option_;
+    string question_text_;      // holds text of the question
+    vector<string> options_;    // stores options for question
+    int correct_option_;        // index of the correct option
 };
 
 class Quiz {
 public:
-    Quiz();
-    void AddQuestion(const QuizQuestions& question);
-    void StartQuiz();
-    void SaveScore(const string& filename);
+    Quiz(); // constructor
+    void AddQuestion(const QuizQuestions& question); // add questions
+    void StartQuiz(); // starts quiz and presents each question to the user
+    void SaveScore(const string& filename); // saves the score in a .txt file
 
 private:
-    vector<QuizQuestions> questions_;
-    int total_score_;
+    vector<QuizQuestions> questions_; // holds all quiz question in a dynamic array
+    int total_score_; // tracks the user score
 };
 
 #endif // QUIZQUESTIONS_H
