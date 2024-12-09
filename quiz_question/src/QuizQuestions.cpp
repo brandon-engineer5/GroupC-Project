@@ -60,6 +60,7 @@ void Quiz::AddQuestion(const QuizQuestions& question) {
 
 /// starts quiz going through all questions and trscking score
 void Quiz::StartQuiz() {
+
     total_score_ = 0; // reset total score to 0
 
     /// loop through each question in the quiz
@@ -72,14 +73,35 @@ void Quiz::StartQuiz() {
     cout << "\nYour total score: " << total_score_ << "/40" << endl;
 }
 
+//int Quiz::SaveScore(){
+   // return total_score_;
+   // }
 /// saves total score to a .txt file
 void Quiz::SaveScore(const string& filename) {
-    ofstream file(filename); // open file for writing
+
+    for (int i = 0; i < userCount; ++i) {
+        if (usernames[i] == currentUser) {
+            if (score[i] < total_score_)
+            score[i] = total_score_;
+        }
+    }
+
+    ofstream file(filename, ios::app); // open file for writing
     if (file.is_open()) { // check if file is opened successfully
-        file << "Your score: " << total_score_ << "/40" << endl; // erite the score to the file
+        file << total_score_ ; // write the score to the file
         file.close(); // close the file
         cout << "Score saved to " << filename << endl; // inform the user that the score was saved
     } else {
         cerr << "Error: Could not open file " << filename << endl; // error message is file cannot be opened
     }
 }
+
+/*
+for (int i = 0; i < userCount; ++i) {
+        if (usernames[i] == currentUser) {
+            if (score[i] < total_score)
+            score[i] = total_score;
+        }
+    }
+
+*/

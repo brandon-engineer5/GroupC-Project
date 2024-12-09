@@ -8,6 +8,7 @@ Task - Quiz Logic: Implements the quiz-taking and scoring mechanics.
 #define QUIZQUESTIONS_H
 #include <iostream>
 #include <string>
+#include <ostream>
 #include <vector>
 #include <fstream> // for file operations / saving score
 
@@ -41,7 +42,7 @@ public:
     void AddQuestion(const QuizQuestions& question); // add questions
     void StartQuiz(); // starts quiz and presents each question to the user
     void SaveScore(const string& filename); // saves the score in a .txt file
-
+    //int SaveScore();
 private:
     vector<QuizQuestions> questions_; // holds all quiz question in a dynamic array
     int total_score_; // tracks the user score
