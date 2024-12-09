@@ -52,16 +52,16 @@ void showMainMenu(){
 void menuChoice(int choice){
      switch (choice) {
         case 1:
-            registerUser();
+            cout << "registerUser()";
             break;
         case 2:
-            loginUser();
+            cout << "loginUser()";
             break;
         case 3:
-            takeQuiz();
+            cout << "takeQuiz()";
             break;
         case 4:
-            viewLeaderboard();
+            cout << "viewLeaderboard()";
             break;
         case 5:
             cout << "Exiting the application\n";
@@ -71,3 +71,4 @@ void menuChoice(int choice){
     }
 }
 
+return 0;
