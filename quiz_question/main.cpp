@@ -286,31 +286,33 @@ void menuChoice(int choice){
     /// leaderboard function
     void viewLeaderboard() {
         ifstream file("users.txt"); // opens .txt file
-        if (!file) {
-            cout << "Error: Could not open file users.txt" << endl;
+        if (!file) { // if it returns true then the file has failed to open
+            cout << "Error: Could not open file users.txt" << endl; // error message
             return;
         }
 
-        vector<pair<string, int>> leaderboard;
-        string username;
+        vector<pair<string, int>> leaderboard; // defines each element in the vector as a pair - name and score
+        string username; // trmporarily stores username
         string password; // Skip password while reading
-        int score;
+        int score; // temporarily stores score
 
         /// read usernames and scores from the file
-        while (file >> username >> password >> score) {
-            leaderboard.push_back({username, score});
+        while (file >> username >> password >> score) { // extracts uername password and score in each iteration until it reaches the end of the file
+            leaderboard.push_back({username, score}); /* adds username and score to the leaderboard
+            note that this line dosent add the password to the leaderboard
+            */
         }
 
         /// sort by score in descending order
-        sort(leaderboard.begin(), leaderboard.end(),
-             [](const pair<string, int>& a, const pair<string, int>& b) {
-                 return a.second > b.second;
+        sort(leaderboard.begin(), leaderboard.end(), // sorts the elements of the vector from 'begin' to end - one past the last element in the vector
+             [](const pair<string, int>& a, const pair<string, int>& b) { // references two elements being compared while sorting - element a & b
+                 return a.second > b.second; // compares the second element (score) of the pairs, sorting them in descending order.
              });
 
         /// display leaderbard
         cout << "\n=========== Leaderboard ===========\n";
-        for (size_t i = 0; i < leaderboard.size(); ++i) {
-            cout << i + 1 << ". " << leaderboard[i].first << " - " << leaderboard[i].second << " points\n";
+        for (size_t i = 0; i < leaderboard.size(); ++i) { // loop through each element in the sorted leaderboard
+            cout << i + 1 << ". " << leaderboard[i].first << " - " << leaderboard[i].second << " points\n"; // prints rank - username - score - points
         }
         cout << "===================================\n";
     }
