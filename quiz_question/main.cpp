@@ -93,7 +93,7 @@ void registerUser(){
     ++userCount;
 
     saveUsers(); // save updated user data to the file
-    cout << "Registration successful!\nUser's first quiz will always be a practice and will not count towards the leaderboard";
+    cout << "Registration successful!\n";
     currentUser = username; // automatically log in the new user
 }
 
