@@ -1,39 +1,39 @@
 #include "QuizQuestions.h"
 
-void loadUsers();
-void registerUser();
-void saveUsers();
-bool loginUser();
+/// function declarations
+void loadUsers(); // load users from file
+void registerUser(); // register a new user
+void saveUsers(); // save user data to file
+bool loginUser(); // handles user login
+void showMainMenu(); // shows the main menu
+void menuChoice(int choice); // allows user to interact with the menu
+void takeQuiz(); // allows user to take quiz
+void viewLeaderboard(); // shows leaderboard
+
 const int MAX_USERS = 100; // Assume no more than 100 users will be needed
 string usernames[MAX_USERS]; // Establish array for usernames
 string passwords[MAX_USERS]; // Establish array passwords
 int scores[MAX_USERS] = {0}; // Establish array for scores
 int userCount = 0; // Current number of registered users
-string currentUser; // Establish variable of current user to keep track of whos currently logged in
-
-void showMainMenu();
-void menuChoice(int choice);
-void takeQuiz();
-void viewLeaderboard();
-
+string currentUser = "Guest"; // stores login of current user, if no user is logged in then user will be set to guest
 
 int main() {
-    loadUsers();
+    loadUsers(); // load existing user data from the file
 
-    int choice = 0;
+    int choice = 0; // variable to store the user's menu choice
 
-    while (choice != 5) {
-        showMainMenu();
+    while (choice != 6) { // loop until the user chooses to exit
+        showMainMenu(); // displays main menu
         cout << "Enter your choice: ";
-        cin >> choice;
+        cin >> choice; // gets users choice
 
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(1000, '\n');
-            choice = -1; // Reset choice to an invalid option
+        if (cin.fail()) { // check for invalid input
+            cin.clear(); // clear error flag
+            cin.ignore(1000, '\n'); // get rid of invalid input
+            choice = -1; // reset choice to an invalid option
         }
 
-        menuChoice(choice);
+        menuChoice(choice); // handle the users choice
     }
 
     return 0;
@@ -68,6 +68,8 @@ void registerUser(){
     string password;
     cout << "Enter username: ";
     cin >> username;
+
+    /// check if username already exists
     for (int i = 0; i < userCount; ++i) {
         if (usernames[i] == username) {
             cout << "User already exists!\n";
@@ -75,6 +77,7 @@ void registerUser(){
         }
     }
 
+    /// check if max user limit reached
     if (userCount >= MAX_USERS) {
         cout << "User limit reached! Cannot register more users.\n";
         return;
@@ -89,18 +92,20 @@ void registerUser(){
     scores[userCount] = 0; // Initialize score
     ++userCount;
 
-    saveUsers();
-    cout << "Registration successful!\n";
+    saveUsers(); // save updated user data to the file
+    cout << "Registration successful!\nUser's first quiz will always be a practice and will not count towards the leaderboard";
+    currentUser = username; // automatically log in the new user
 }
 
 void saveUsers() {
-    ofstream file("users.txt");
+    ofstream file("users.txt"); // opens .txt file
 
-    if (file.is_open()) {
+    if (file.is_open()) { // check if file was opened successfully
         for (int i = 0; i < userCount; ++i) {
             file << usernames[i] << " " << passwords[i] << " " << scores[i] << "\n";
+            // wrute username, password, and score to the file
         }
-        file.close();
+        file.close(); // close file
         cout << "User data saved successfully.\n";
     } else {
         cout << "Could not open users.txt for writing.\n";
@@ -114,15 +119,17 @@ bool loginUser(){
     cin >> username;
     cout << endl << "Enter password: ";
     cin >> password;
+
+    /// check the entered credentials
     for (int i = 0; i < userCount; ++i) {
         if ((usernames[i] == username) && (passwords[i] == password)){
-            currentUser = usernames[i];
+            currentUser = usernames[i]; // set current user
             cout << "Welcome " << usernames[i] << endl;
-            return true;
+            return true; // login successful
         }
     }
     cout << "Incorrect username or password" << endl;
-    return false;
+    return false; // login failed
 }
 
 void showMainMenu(){
@@ -133,14 +140,18 @@ void showMainMenu(){
     cout << "2. Login\n";
     cout << "3. Take Quiz\n";
     cout << "4. View Leaderboard\n";
-    cout << "5. Exit\n";
+    cout << "5. Log out\n";
+    cout << "6. Exit\n";
     cout << "===================================\n";
+    cout << "Current user: " << currentUser <<endl; // display current logged in user. if no user logged in display guest
 }
 
 
 void takeQuiz(){
 
     Quiz quiz;
+
+    /// add quiz questions
 
     QuizQuestions q1;
     q1.Setquestion_text("What is the capital of France?"); // set question text
@@ -234,15 +245,15 @@ void takeQuiz(){
 
     quiz.StartQuiz(); // starts quiz for the user
 
-   /* for (int i = 0; i < userCount; ++i) {
+    /// update user's score if they set a new personal high score
+    for (int i = 0; i < userCount; ++i) {
         if (usernames[i] == currentUser) {
-            if (scores[i] < quiz.SaveScore())
-            scores[i] = quiz.SaveScore();
+            if (scores[i] < quiz.SaveScore()){
+            scores[i] = quiz.SaveScore(); // updates score
+            saveUsers(); // save updated score
+            }
         }
     }
-*/
-
-    quiz.SaveScore("users.txt");
 
 }
 
@@ -258,9 +269,13 @@ void menuChoice(int choice){
             takeQuiz();
             break;
         case 4:
-            cout << "viewLeaderboard()";
+            viewLeaderboard();
             break;
         case 5:
+            currentUser = "Guest";
+            cout << "Logged out successfully\n";
+            break;
+        case 6:
             cout << "Exiting the application\n";
             break;
         default:
@@ -268,3 +283,34 @@ void menuChoice(int choice){
     }
 }
 
+    /// leaderboard function
+    void viewLeaderboard() {
+        ifstream file("users.txt"); // opens .txt file
+        if (!file) {
+            cout << "Error: Could not open file users.txt" << endl;
+            return;
+        }
+
+        vector<pair<string, int>> leaderboard;
+        string username;
+        string password; // Skip password while reading
+        int score;
+
+        /// read usernames and scores from the file
+        while (file >> username >> password >> score) {
+            leaderboard.push_back({username, score});
+        }
+
+        /// sort by score in descending order
+        sort(leaderboard.begin(), leaderboard.end(),
+             [](const pair<string, int>& a, const pair<string, int>& b) {
+                 return a.second > b.second;
+             });
+
+        /// display leaderbard
+        cout << "\n=========== Leaderboard ===========\n";
+        for (size_t i = 0; i < leaderboard.size(); ++i) {
+            cout << i + 1 << ". " << leaderboard[i].first << " - " << leaderboard[i].second << " points\n";
+        }
+        cout << "===================================\n";
+    }
